@@ -1,28 +1,41 @@
 import tkinter
 from tkinter import *
 from PIL import Image, ImageTk
+import os
+import time
 
 
 root = Tk()
+images = []
+i = 0
 
-img = Image.open("images\city.png")
+for filename in os.listdir("images"):
+   images.append(filename)
 
-imgD = ImageTk.PhotoImage(img)
+img = ImageTk.PhotoImage(Image.open("images\\" + images[0]))
+panel = tkinter.Label(root, image=img)
+panel.pack(side="bottom", fill="both", expand="yes")
 
-label = tkinter.Label(image=imgD)
-label.image = imgD
-label.place(x=0,y=0)
+root.title(str(i + 1) + "/" + str(len(images)) + " Images")
+
+def callbackGood(e):
+    global i
+    i = i + 1
+    img2 = ImageTk.PhotoImage(Image.open("images\\" + images[i]))
+    panel.configure(image=img2)
+    panel.image = img2
+    root.title(str(i + 1) + "/" + str(len(images)) + " Images")
+
+def callbackBad(e):
+    global i
+    i = i + 1
+    img2 = ImageTk.PhotoImage(Image.open("images\\" + images[i]))
+    panel.configure(image=img2)
+    panel.image = img2
+    root.title(str(i + 1) + "/" + str(len(images)) + " Images")
 
 
-width, height = img.size
-size = str(width) + "x" + str(height + 50)
-
-button1 = Button(text="Good")
-button1.place(x=0, y=height+25)
-
-button1 = Button(text="Bad")
-button1.place(x=75, y=height+25)
-
-root.geometry(size)
+root.bind("<Left>", callbackGood)
+root.bind("<Right>", callbackBad)
 root.mainloop()
 
