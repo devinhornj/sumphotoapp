@@ -3,6 +3,7 @@ from tkinter import *
 from PIL import Image, ImageTk
 import os
 import time
+import csv
 
 
 root = Tk()
@@ -18,6 +19,12 @@ panel.pack(side="bottom", fill="both", expand="yes")
 
 root.title(str(i + 1) + "/" + str(len(images)) + " Images")
 
+with open('picture.csv', mode='w', newline='') as picture:
+    fieldnames = ['pic_name', 'result']
+    picture_writer = csv.DictWriter(picture, fieldnames=fieldnames)
+
+    picture_writer.writeheader()
+
 def callbackGood(e):
     global i
     i = i + 1
@@ -25,6 +32,7 @@ def callbackGood(e):
     panel.configure(image=img2)
     panel.image = img2
     root.title(str(i + 1) + "/" + str(len(images)) + " Images")
+    picture_writer.writerow({'pic_name': str(i + 1), 'result': 1})
 
 def callbackBad(e):
     global i
@@ -33,6 +41,7 @@ def callbackBad(e):
     panel.configure(image=img2)
     panel.image = img2
     root.title(str(i + 1) + "/" + str(len(images)) + " Images")
+    picture_writer.writerow({'pic_name': str(i + 1), 'result': 0})
 
 
 root.bind("<Left>", callbackGood)
