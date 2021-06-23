@@ -19,11 +19,6 @@ panel.pack(side="bottom", fill="both", expand="yes")
 
 root.title(str(i + 1) + "/" + str(len(images)) + " Images")
 
-with open('picture.csv', mode='w', newline='') as picture:
-    fieldnames = ['pic_name', 'result']
-    picture_writer = csv.DictWriter(picture, fieldnames=fieldnames)
-
-    picture_writer.writeheader()
 
 def callbackGood(e):
     global i
@@ -43,8 +38,12 @@ def callbackBad(e):
     root.title(str(i + 1) + "/" + str(len(images)) + " Images")
     picture_writer.writerow({'pic_name': str(i + 1), 'result': 0})
 
+      
+with open('picture.csv', mode='a+', newline='') as picture:
+    fieldnames = ['pic_name', 'result']
+    picture_writer = csv.DictWriter(picture, fieldnames=fieldnames)
 
-root.bind("<Left>", callbackGood)
-root.bind("<Right>", callbackBad)
-root.mainloop()
+    root.bind("<Left>", callbackGood)
+    root.bind("<Right>", callbackBad)
+    root.mainloop()
 
