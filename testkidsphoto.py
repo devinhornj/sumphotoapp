@@ -27,16 +27,17 @@ preprocess = T.Compose([
 
 net = Net()
 
-PATH = './cifar_net.pth'
-#net.load_state_dict(torch.load(PATH))
+PATH = 'D:/Models/kidsphotomodel89(0.03864210571628064).pth'
+net.load_state_dict(torch.load(PATH))
 
 criterion = nn.CrossEntropyLoss()
 
-input = Image.open("m2106-red-500x300.jpg")
+input = Image.open("testimages/IMG_0802.jpeg")
 
 input_tensor = preprocess(input)
 
 input_tensor.unsqueeze_(0)
+input_tensor = input_tensor.cuda()
 
 output = net(input_tensor)
 
